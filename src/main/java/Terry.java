@@ -21,31 +21,9 @@ public class Terry {
                 break;
             }
             if(line.equals("list")) {
-                list.printTasks();
+                list.printInputs();
                 printLine();
-            } else if(line.startsWith("mark")) {
-                String[] words = line.split(" ");
-                if (words.length < 2) { // Check if the number is missing
-                    System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
-                } else {
-                    try {
-                        int index = Integer.parseInt(words[1]);
-                        list.mark(index);
-                        if (list.getOneTask(index) != null) {
-                            System.out.println("aww yea the task is marked LOOK");
-                            list.printIndex(index);
-                        } else {
-                            System.out.println("WE HAVEN'T REACHED SO MANY TASKS YET");
-                        }
-
-                    } catch (NumberFormatException e) {
-                        System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
-                    }
-                }
-                printLine();
-            }
-
-            else {
+            } else {
 
                 list.add(line);
                 printLine();
