@@ -5,10 +5,7 @@ import java.util.Scanner;
 public class Terry {
     public static void main(String[] args) {
 
-        System.out.println("Hello from Terry\n");
-        System.out.println("Hello! I am Terrybear\n ");
-        System.out.println("What can I do for you?");
-        printLine();
+        welcomeMessage();
 
         Scanner in = new Scanner(System.in);
         String line;
@@ -24,17 +21,26 @@ public class Terry {
                 list.printInputs();
                 printLine();
             } else {
-
-                list.add(line);
-                printLine();
-                System.out.print("added: ");
-                System.out.println(line);
-                printLine();
+                addItemToList(list, line);
             }
-
          }
-
     }
+
+    private static void addItemToList(UserInputList list, String line) {
+        list.add(line);
+        printLine();
+        System.out.print("added: ");
+        System.out.println(line);
+        printLine();
+    }
+
+    private static void welcomeMessage() {
+        System.out.println("Hello from Terry\n");
+        System.out.println("Hello! I am Terrybear\n ");
+        System.out.println("What can I do for you?");
+        printLine();
+    }
+
     public static void printLine() {
         System.out.println("____________________________________________________________");
     }
