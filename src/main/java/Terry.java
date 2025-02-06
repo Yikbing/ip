@@ -38,17 +38,62 @@ public class Terry {
                 printLine();
             } else {
                 addItemToList(list, line);
+                // i think need to change this function into taking in 3 var, event
+                // to do or deadline then based on that additemtolist haha
             }
         }
     }
 
     private static void addItemToList(UserInputList list, String line) {
-        list.add(line);
+        String[] words = line.split(" ", 2);
+        if (words.length < 2) {
+            System.out.println("Invalid format! Please specify the task details.");
+            return;
+        }
+
+        String taskType = words[0]; // First part is the command
+        String details = words[1];
+
+        Task newTask = null; // Task object to be added
+
+        switch (taskType) {
+        case "todo":
+            newTask = new ToDo(details);
+            break;
+        case "deadline":
+            String[] deadlineParts = details.split(" /by ", 2);
+            if (deadlineParts.length < 2) {
+                System.out.println("Invalid format for deadline! Use: deadline [description] /by [date]");
+                return;
+            }
+            newTask = new Deadline(deadlineParts[0], deadlineParts[1]);
+            break;
+        case "event":
+            String[] eventParts = details.split(" /from ", 2);
+            if (eventParts.length < 2 || !eventParts[1].contains(" /to ")) {
+                System.out.println("Invalid format for event! Use: event [description] /from [start] /to [end]");
+                return;
+            }
+            String[] times = eventParts[1].split(" /to ", 2);
+            newTask = new Event(eventParts[0], times[0], times[1]);
+            break;
+        default:
+            System.out.println("Unknown task type! Use 'todo', 'deadline', or 'event'.");
+            return;
+        }
+
+        list.add(newTask); // Add the task to the list
+
         printLine();
-        System.out.print("added: ");
-        System.out.println(line);
+        System.out.println("Got it. I've added this task:\n  " + newTask);
+        System.out.println("Now you have " + list.getSize() + " tasks in the list.");
         printLine();
+        // java automatically calls the toString function when printing an object type,
+        //so printing newTask will call toString, invoking the toString functions in the
+        //respective subclasses since they have @override inside
     }
+
+
 
     private static void welcomeMessage() {
         System.out.println("Hello from Terry\n");

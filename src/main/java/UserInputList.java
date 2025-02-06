@@ -9,9 +9,15 @@ public class UserInputList {
         this.tasks = new ArrayList<>();
     }
 
-    public void add(String input) {
-        tasks.add(new Task(input, false));
+    /*public void add(String input) {
+        tasks.add(new Task(input));
+    }*/
+
+    public void add(Task task) {
+        tasks.add(task);
     }
+
+
 
     public void remove(int index) {
         if (index > 0 && index <= tasks.size()) {
@@ -67,7 +73,9 @@ public class UserInputList {
         } else {
             int index = 1;
             for (Task task : tasks) {
-                System.out.println(index + ". [" + (task.isMarked() ? "X" : " ") + "] " + task.getInput());
+               // System.out.println(index + ". [" + (task.isMarked() ? "X" : " ") + "] " + task.getInput());
+                System.out.println(index + ". " + task);  // Implicitly calls task.toString()
+
                 index++;
             }
         }
@@ -76,34 +84,18 @@ public class UserInputList {
     public void printIndex( int index ) {
         if (index > 0 && index <= tasks.size()) {
             Task task = tasks.get(index - 1);
-            System.out.println(index + ". [" + (task.isMarked() ? "X" : " ") + "] " + task.getInput());
+            //System.out.println(index + ". [" + (task.isMarked() ? "X" : " ") + "] " + task.getInput());
+            System.out.println(index + ". " + task);
         } else {
             System.out.println("Index out of bounds");
         }
     }
 
-}
-
-class Task {
-    private String input;
-    private boolean isMarked;
-
-    public Task(String input, boolean isMarked) {
-        this.input = input;
-        this.isMarked = isMarked;
-    }
-
-    public String getInput() {
-        return input;
-    }
-
-    public boolean isMarked() {
-        return isMarked;
-    }
-
-    public void setMarked(boolean isMarked) {
-        this.isMarked = isMarked;
+    public int getSize() {
+        return tasks.size();
     }
 
 
 }
+
+
