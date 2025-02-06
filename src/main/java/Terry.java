@@ -1,6 +1,4 @@
-
 import java.util.Scanner;
-
 
 public class Terry {
     public static void main(String[] args) {
@@ -10,21 +8,16 @@ public class Terry {
         Scanner in = new Scanner(System.in);
         String line;
         UserInputList list = new UserInputList();
-        while(true) {
+        while (true) {
             line = in.nextLine();
-            if(line.equals("bye")) {
+            if (line.equals("bye")) {
                 System.out.println("BYEBYE SEE YOU NEXT TIME");
                 printLine();
                 break;
-            }
-            if(line.equals("list")) {
+            } else if (line.equals("list")) {
                 list.printTasks();
                 printLine();
-<<<<<<< HEAD
-            } else {
-                addItemToList(list, line);
-=======
-            } else if(line.startsWith("mark")) {
+            } else if (line.startsWith("mark")) {
                 String[] words = line.split(" ");
                 if (words.length < 2) { // Check if the number is missing
                     System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
@@ -38,24 +31,15 @@ public class Terry {
                         } else {
                             System.out.println("WE HAVEN'T REACHED SO MANY TASKS YET");
                         }
-
                     } catch (NumberFormatException e) {
                         System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
                     }
                 }
                 printLine();
+            } else {
+                addItemToList(list, line);
             }
-
-            else {
-
-                list.add(line);
-                printLine();
-                System.out.print("added: ");
-                System.out.println(line);
-                printLine();
->>>>>>> 9527102e9655234d7eb37c62ab079bc1746ca2f9
-            }
-         }
+        }
     }
 
     private static void addItemToList(UserInputList list, String line) {
@@ -77,4 +61,3 @@ public class Terry {
         System.out.println("____________________________________________________________");
     }
 }
-
