@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 public class Terry {
+
+    private static final int COMMAND_AND_DETAILS_LIMIT = 2;
+
     public static void main(String[] args) {
 
         welcomeMessage();
@@ -8,45 +11,58 @@ public class Terry {
         Scanner in = new Scanner(System.in);
         String line;
         UserInputList list = new UserInputList();
+
         while (true) {
-            line = in.nextLine();
-            if (line.equals("bye")) {
+            line = in.nextLine().trim();
+            String[] words = line.split(" ", COMMAND_AND_DETAILS_LIMIT);
+            String command = words[0].toLowerCase();
+
+            switch (command) {
+            case "bye":
                 System.out.println("BYEBYE SEE YOU NEXT TIME");
                 printLine();
-                break;
-            } else if (line.equals("list")) {
+                return;
+
+            case "list":
                 list.printTasks();
                 printLine();
-            } else if (line.startsWith("mark")) {
-                String[] words = line.split(" ");
-                if (words.length < 2) { // Check if the number is missing
-                    System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
-                } else {
-                    try {
-                        int index = Integer.parseInt(words[1]);
-                        list.mark(index);
-                        if (list.getOneTask(index) != null) {
-                            System.out.println("aww yea the task is marked LOOK");
-                            list.printIndex(index);
-                        } else {
-                            System.out.println("WE HAVEN'T REACHED SO MANY TASKS YET");
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
-                    }
-                }
+                break;
+
+            case "mark":
+                handleMarkCase(words, list);
                 printLine();
-            } else {
+                break;
+
+            default:
                 addItemToList(list, line);
-                // i think need to change this function into taking in 3 var, event
-                // to do or deadline then based on that additemtolist haha
+                break;
+            }
+        }
+
+    }
+
+    private static void handleMarkCase(String[] words, UserInputList list) {
+        if (words.length < COMMAND_AND_DETAILS_LIMIT) { // can also use this limit since need mark followed by index as well!
+            System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
+        } else {
+            try {
+                int index = Integer.parseInt(words[1]);
+                if (list.getOneTask(index) != null) {
+                    list.mark(index);
+                    System.out.println("aww yea the task is marked LOOK");
+                    list.printIndex(index);
+                } else {
+                    System.out.println("WE HAVEN'T REACHED SO MANY TASKS YET");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
             }
         }
     }
 
     private static void addItemToList(UserInputList list, String line) {
-        String[] words = line.split(" ", 2);
-        if (words.length < 2) {
+        String[] words = line.split(" ", COMMAND_AND_DETAILS_LIMIT);
+        if (words.length < COMMAND_AND_DETAILS_LIMIT) {
             System.out.println("Invalid format! Please specify the task details.");
             return;
         }

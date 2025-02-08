@@ -9,10 +9,6 @@ public class UserInputList {
         this.tasks = new ArrayList<>();
     }
 
-    /*public void add(String input) {
-        tasks.add(new Task(input));
-    }*/
-
     public void add(Task task) {
         tasks.add(task);
     }
@@ -73,7 +69,6 @@ public class UserInputList {
         } else {
             int index = 1;
             for (Task task : tasks) {
-               // System.out.println(index + ". [" + (task.isMarked() ? "X" : " ") + "] " + task.getInput());
                 System.out.println(index + ". " + task);  // Implicitly calls task.toString()
 
                 index++;
@@ -84,7 +79,6 @@ public class UserInputList {
     public void printIndex( int index ) {
         if (index > 0 && index <= tasks.size()) {
             Task task = tasks.get(index - 1);
-            //System.out.println(index + ". [" + (task.isMarked() ? "X" : " ") + "] " + task.getInput());
             System.out.println(index + ". " + task);
         } else {
             System.out.println("Index out of bounds");
