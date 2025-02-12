@@ -4,7 +4,7 @@ public class Terry {
 
     private static final int COMMAND_AND_DETAILS_LIMIT = 2;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws TerryException {
 
         welcomeMessage();
 
@@ -34,16 +34,21 @@ public class Terry {
                 break;
 
             default:
-                addItemToList(list, line);
+                try {
+                    addItemToList(list, line);
+                } catch (TerryException e) {
+                    printLine();
+                }
                 break;
             }
         }
 
     }
 
-    private static void handleMarkCase(String[] words, UserInputList list) {
+    private static void handleMarkCase(String[] words, UserInputList list) throws TerryException {
         if (words.length < COMMAND_AND_DETAILS_LIMIT) { // can also use this limit since need mark followed by index as well!
-            System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
+            //System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
+            throw new TerryException("YOU DIDN'T PUT THE NUMBER THERE");
         } else {
             try {
                 int index = Integer.parseInt(words[1]);
@@ -52,19 +57,22 @@ public class Terry {
                     System.out.println("aww yea the task is marked LOOK");
                     list.printIndex(index);
                 } else {
-                    System.out.println("WE HAVEN'T REACHED SO MANY TASKS YET");
+                    //System.out.println("WE HAVEN'T REACHED SO MANY TASKS YET");
+                    throw new TerryException("WE HAVEN'T REACHED SO MANY TASKS YET");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
+                //System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
+                throw new TerryException("YOU DIDN'T PUT THE NUMBER THERE");
             }
         }
     }
 
-    private static void addItemToList(UserInputList list, String line) {
+    private static void addItemToList(UserInputList list, String line) throws TerryException {
         String[] words = line.split(" ", COMMAND_AND_DETAILS_LIMIT);
         if (words.length < COMMAND_AND_DETAILS_LIMIT) {
             System.out.println("Invalid format! Please specify the task details.");
-            return;
+            throw new TerryException("Invalid format! Please specify the task details.");
+
         }
 
         String taskType = words[0]; // First part is the command
@@ -79,23 +87,23 @@ public class Terry {
         case "deadline":
             String[] deadlineParts = details.split(" /by ", 2);
             if (deadlineParts.length < 2) {
-                System.out.println("Invalid format for deadline! Use: deadline [description] /by [date]");
-                return;
+                //System.out.println("Invalid format for deadline! Use: deadline [description] /by [date]");
+                throw new TerryException("Invalid format for deadline! Use: deadline [description] /by [date]");
             }
             newTask = new Deadline(deadlineParts[0], deadlineParts[1]);
             break;
         case "event":
             String[] eventParts = details.split(" /from ", 2);
             if (eventParts.length < 2 || !eventParts[1].contains(" /to ")) {
-                System.out.println("Invalid format for event! Use: event [description] /from [start] /to [end]");
-                return;
+                //System.out.println("Invalid format for event! Use: event [description] /from [start] /to [end]");
+                throw new TerryException("Invalid format for event! Use: event [description] /from [start] /to [end]");
             }
             String[] times = eventParts[1].split(" /to ", 2);
             newTask = new Event(eventParts[0], times[0], times[1]);
             break;
         default:
-            System.out.println("Unknown task type! Use 'todo', 'deadline', or 'event'.");
-            return;
+            //System.out.println("Unknown task type! Use 'todo', 'deadline', or 'event'.");
+            throw new TerryException("Unknown task type! Use 'todo', 'deadline', or 'event'.");
         }
 
         list.add(newTask); // Add the task to the list
@@ -108,7 +116,6 @@ public class Terry {
         //so printing newTask will call toString, invoking the toString functions in the
         //respective subclasses since they have @override inside
     }
-
 
 
     private static void welcomeMessage() {
