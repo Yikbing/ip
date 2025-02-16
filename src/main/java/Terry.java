@@ -49,7 +49,6 @@ public class Terry {
 
     private static void handleMarkCase(String[] words, UserInputList list) throws TerryException {
         if (words.length < COMMAND_AND_DETAILS_LIMIT) { // can also use this limit since need mark followed by index as well!
-            //System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
             throw new TerryException("YOU DIDN'T PUT THE NUMBER THERE");
         } else {
             try {
@@ -59,11 +58,9 @@ public class Terry {
                     System.out.println("aww yea the task is marked LOOK");
                     list.printIndex(index);
                 } else {
-                    //System.out.println("WE HAVEN'T REACHED SO MANY TASKS YET");
                     throw new TerryException("WE HAVEN'T REACHED SO MANY TASKS YET");
                 }
             } catch (NumberFormatException e) {
-                //System.out.println("YOU DIDN'T PUT THE NUMBER THERE");
                 throw new TerryException("YOU DIDN'T PUT THE NUMBER THERE");
             }
         }
@@ -89,7 +86,6 @@ public class Terry {
         case "deadline":
             String[] deadlineParts = details.split(" /by ", 2);
             if (deadlineParts.length < 2) {
-                //System.out.println("Invalid format for deadline! Use: deadline [description] /by [date]");
                 throw new TerryException("Invalid format for deadline! Use: deadline [description] /by [date]");
             }
             newTask = new Deadline(deadlineParts[0], deadlineParts[1]);
@@ -97,14 +93,12 @@ public class Terry {
         case "event":
             String[] eventParts = details.split(" /from ", 2);
             if (eventParts.length < 2 || !eventParts[1].contains(" /to ")) {
-                //System.out.println("Invalid format for event! Use: event [description] /from [start] /to [end]");
                 throw new TerryException("Invalid format for event! Use: event [description] /from [start] /to [end]");
             }
             String[] times = eventParts[1].split(" /to ", 2);
             newTask = new Event(eventParts[0], times[0], times[1]);
             break;
         default:
-            //System.out.println("Unknown task type! Use 'todo', 'deadline', or 'event'.");
             throw new TerryException("Unknown task type! Use 'todo', 'deadline', or 'event'.");
         }
 
