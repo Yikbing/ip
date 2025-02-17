@@ -34,6 +34,10 @@ public class Terry {
                 handleMarkCase(words, list);
                 printLine();
                 break;
+            case "delete":
+                handleDeleteCase(words, list);
+                printLine();
+                break;
 
             default:
                 try {
@@ -45,6 +49,14 @@ public class Terry {
             }
         }
 
+    }
+
+    private static void handleDeleteCase(String[] words, UserInputList list) {
+        int index_to_delete = Integer.parseInt(words[1]);
+        System.out.println("I deleted thisss: ");
+        list.printIndexWithoutNumber(index_to_delete);
+        list.remove(index_to_delete);
+        printListSize(list);
     }
 
     private static void handleMarkCase(String[] words, UserInputList list) throws TerryException {
@@ -106,11 +118,15 @@ public class Terry {
 
         printLine();
         System.out.println("Got it. I've added this task:\n  " + newTask);
-        System.out.println("Now you have " + list.getSize() + " tasks in the list.");
+        printListSize(list);
         printLine();
         // java automatically calls the toString function when printing an object type,
         //so printing newTask will call toString, invoking the toString functions in the
         //respective subclasses since they have @override inside
+    }
+
+    private static void printListSize(UserInputList list) {
+        System.out.println("Now you have " + list.getSize() + " tasks in the list.");
     }
 
 

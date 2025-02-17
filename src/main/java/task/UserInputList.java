@@ -86,6 +86,15 @@ public class UserInputList {
         }
     }
 
+    public void printIndexWithoutNumber( int index ) {
+        if (index > 0 && index <= tasks.size()) {
+            Task task = tasks.get(index - 1);
+            System.out.println(task);
+        } else {
+            System.out.println("Index out of bounds");
+        }
+    }
+
     public int getSize() {
         return tasks.size();
     }
