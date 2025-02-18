@@ -13,6 +13,7 @@ public class Terry {
         Scanner in = new Scanner(System.in);
         String line;
         UserInputList list = new UserInputList();
+        list.loadTasksFromFile();
 
         while (true) {
             line = in.nextLine().trim();
@@ -123,6 +124,7 @@ public class Terry {
         // java automatically calls the toString function when printing an object type,
         //so printing newTask will call toString, invoking the toString functions in the
         //respective subclasses since they have @override inside
+        list.saveTasksToFile();
     }
 
     private static void printListSize(UserInputList list) {

@@ -15,4 +15,11 @@ public class Event extends Task {
         return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
     }// when printing the things that are of Object type, the toString method gets called
     //and this overrides the toString method from Task
+    @Override
+    public String getSaveFormat() {
+        // Format: E | 1 | project meeting | Aug 6th 2-4pm
+        return "E | " + (isMarked() ? "1" : "0") + " | " + getInput() + " | " + from + " to: " + to;
+    }
+
 }
+
