@@ -31,4 +31,8 @@ public class Task {
     } // need to put override cause java has its own toString function which will not return
     //something we want when it is called, so we need to put override
     //cause all classes are subclasses of the Object type!! hehe
+
+    public String getSaveFormat(){
+        return "T | " + (isMarked() ? "1" : "0") + " | " + getInput();
+    };
 }

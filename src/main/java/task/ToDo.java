@@ -11,4 +11,8 @@ public class ToDo extends Task {
     } // when printing the things that are of Object type, the toString method gets called
     //and this overrides the toString method from Task
 
+    @Override
+    public String getSaveFormat() {
+        return "T | " + (isMarked() ? "1" : "0") + " | " + getInput();
+    }
 }
