@@ -1,3 +1,5 @@
+package exceptions;
+
 public class TerryException extends Exception {
     public TerryException() {
         super();

@@ -47,7 +47,6 @@ public class Ui {
         }
     }
 
-    // Method to print a task by index
     public void printIndex(UserInputList userInputList, int index) {
         List<Task> tasks = userInputList.getTasks();
         if (index > 0 && index <= tasks.size()) {
@@ -58,7 +57,6 @@ public class Ui {
         }
     }
 
-    // Method to print a task by index without the number
     public void printIndexWithoutNumber(UserInputList userInputList, int index) {
         List<Task> tasks = userInputList.getTasks();
         if (index > 0 && index <= tasks.size()) {
@@ -68,4 +66,16 @@ public class Ui {
             System.out.println("Index out of bounds");
         }
     }
+
+    public void showMatchingTasks(List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            System.out.println("No matching tasks found.");
+        } else {
+            System.out.println("Matching tasks in the list:");
+            for (Task task : tasks) {
+                System.out.println(task);
+            }
+        }
+    }
+
 }

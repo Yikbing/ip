@@ -3,9 +3,6 @@ import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 import task.Task;
-import task.Event;
-import task.ToDo;
-import task.Deadline;
 import parser.Parser;
 
 public class Storage {
