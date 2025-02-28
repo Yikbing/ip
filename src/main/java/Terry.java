@@ -1,66 +1,77 @@
 import task.*;
 
 import java.util.Scanner;
+import ui.Ui;
+import storage.Storage;
 
 public class Terry {
+
+    private Storage storage;
+    private Ui ui;
 
     private static final int COMMAND_AND_DETAILS_LIMIT = 2;
 
     public static void main(String[] args) throws TerryException {
 
-        welcomeMessage();
+        Ui ui = new Ui();
+        Storage storage = new Storage();
+        Ui.welcomeMessage();
 
         Scanner in = new Scanner(System.in);
         String line;
         UserInputList list = new UserInputList();
-        list.loadTasksFromFile();
+        storage.loadTasksFromFile(list.getTasks());
 
         while (true) {
             line = in.nextLine().trim();
             String[] words = line.split(" ", COMMAND_AND_DETAILS_LIMIT);
             String command = words[0].toLowerCase();
 
-            switch (command) {
-            case "bye":
-                System.out.println("BYEBYE SEE YOU NEXT TIME");
-                printLine();
-                return;
-
-            case "list":
-                list.printTasks();
-                printLine();
-                break;
-
-            case "mark":
-                handleMarkCase(words, list);
-                printLine();
-                break;
-            case "delete":
-                handleDeleteCase(words, list);
-                printLine();
-                break;
-
-            default:
-                try {
-                    addItemToList(list, line);
-                } catch (TerryException e) {
-                    printLine();
-                }
-                break;
-            }
+            if (process_command(command, list, words, line, ui, storage)) return;
         }
 
     }
 
-    private static void handleDeleteCase(String[] words, UserInputList list) {
-        int index_to_delete = Integer.parseInt(words[1]);
-        System.out.println("I deleted thisss: ");
-        list.printIndexWithoutNumber(index_to_delete);
-        list.remove(index_to_delete);
-        printListSize(list);
+    private static boolean process_command(String command, UserInputList list, String[] words, String line, Ui ui, Storage storage) throws TerryException {
+        switch (command) {
+        case "bye":
+            Ui.showExitMessage();
+            return true;
+
+        case "list":
+            ui.printTasks(list);
+            Ui.printLine();
+            break;
+
+        case "mark":
+            handleMarkCase(words, list, ui);
+            Ui.printLine();
+            break;
+        case "delete":
+            handleDeleteCase(words, list, ui);
+            Ui.printLine();
+            break;
+
+        default:
+            try {
+                addItemToList(list, line, ui, storage);
+            } catch (TerryException e) {
+                Ui.printLine();
+            }
+            break;
+        }
+        return false;
     }
 
-    private static void handleMarkCase(String[] words, UserInputList list) throws TerryException {
+    private static void handleDeleteCase(String[] words, UserInputList list, Ui ui) throws TerryException {
+        int index_to_delete = Integer.parseInt(words[1]);
+        System.out.println("I deleted thisss: ");
+        ui.printIndexWithoutNumber(list, index_to_delete);
+        list.remove(index_to_delete);
+        ui.printListSize(list);
+    }
+
+    private static void handleMarkCase(String[] words, UserInputList list, Ui ui) throws TerryException {
         if (words.length < COMMAND_AND_DETAILS_LIMIT) { // can also use this limit since need mark followed by index as well!
             throw new TerryException("YOU DIDN'T PUT THE NUMBER THERE");
         } else {
@@ -69,7 +80,7 @@ public class Terry {
                 if (list.getOneTask(index) != null) {
                     list.mark(index);
                     System.out.println("aww yea the task is marked LOOK");
-                    list.printIndex(index);
+                    ui.printIndex(list, index);
                 } else {
                     throw new TerryException("WE HAVEN'T REACHED SO MANY TASKS YET");
                 }
@@ -79,7 +90,7 @@ public class Terry {
         }
     }
 
-    private static void addItemToList(UserInputList list, String line) throws TerryException {
+    private static void addItemToList(UserInputList list, String line, Ui ui, Storage storage) throws TerryException {
         String[] words = line.split(" ", COMMAND_AND_DETAILS_LIMIT);
         if (words.length < COMMAND_AND_DETAILS_LIMIT) {
             System.out.println("Invalid format! Please specify the task details.");
@@ -117,29 +128,12 @@ public class Terry {
 
         list.add(newTask); // Add the task to the list
 
-        printLine();
-        System.out.println("Got it. I've added this task:\n  " + newTask);
-        printListSize(list);
-        printLine();
+        ui.printTasks(list, newTask);
         // java automatically calls the toString function when printing an object type,
         //so printing newTask will call toString, invoking the toString functions in the
         //respective subclasses since they have @override inside
-        list.saveTasksToFile();
+//        list.saveTasksToFile();
+        storage.saveTasksToFile(list.getTasks());
     }
 
-    private static void printListSize(UserInputList list) {
-        System.out.println("Now you have " + list.getSize() + " tasks in the list.");
-    }
-
-
-    private static void welcomeMessage() {
-        System.out.println("Hello from Terry\n");
-        System.out.println("Hello! I am Terrybear\n ");
-        System.out.println("What can I do for you?");
-        printLine();
-    }
-
-    public static void printLine() {
-        System.out.println("____________________________________________________________");
-    }
 }
