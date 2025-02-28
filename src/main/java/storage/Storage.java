@@ -6,6 +6,7 @@ import task.Task;
 import task.Event;
 import task.ToDo;
 import task.Deadline;
+import parser.Parser;
 
 public class Storage {
     public static final String TERRY_RELATIVE_PATH_NAME = "./data/terry.txt";
@@ -42,7 +43,7 @@ public class Storage {
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                Task task = parseTaskFromSaveFormat(line);
+                Task task = Parser.parseTaskFromSaveFormat(line);
                 if (task != null) {
                     tasks.add(task);
                 }
@@ -50,36 +51,5 @@ public class Storage {
         } catch (IOException e) {
             System.out.println("An error occurred while reading the file");
         }
-    }
-
-    private Task parseTaskFromSaveFormat(String line) {
-        String[] parts = line.split(" \\| ");
-        if (parts.length < 3) return null; // Invalid format
-
-        String type = parts[0]; // T, D, or E
-        boolean isMarked = parts[1].equals("1");
-        String description = parts[2];
-
-        Task task;
-        switch (type) {
-        case "T":
-            task = new ToDo(description);
-            break;
-        case "D":
-            if (parts.length < 4) return null; // Ensure correct format for Deadline
-            task = new Deadline(description, parts[3]);
-            break;
-        case "E":
-            if (parts.length < 4) return null; // Ensure correct format for Event
-            String[] eventTimes = parts[3].split(" to: ");
-            if (eventTimes.length < 2) return null; // Invalid event time format
-            task = new Event(description, eventTimes[0], eventTimes[1]);
-            break;
-        default:
-            return null;
-        }
-
-        task.setMarked(isMarked);
-        return task;
     }
 }

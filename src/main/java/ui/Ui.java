@@ -35,7 +35,7 @@ public class Ui {
     }
 
     public void printTasks(UserInputList userInputList) {
-        List<Task> tasks = userInputList.getTasks();  // Access tasks via the UserInputList instance
+        List<Task> tasks = userInputList.getTasks();
         if (tasks.isEmpty()) {
             System.out.println("No Tasks");
         } else {
