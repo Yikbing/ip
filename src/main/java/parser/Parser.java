@@ -9,12 +9,48 @@ import task.Event;
 import task.UserInputList;
 import exceptions.TerryException;
 
+
+/**
+ * The {@code Parser} class is responsible for processing user commands,
+ * parsing task information, and handling task creation from saved files.
+ */
 public class Parser {
 
+    // Position constants used for parsing input strings
+    public static final int COMMAND_POSITION = 0;
+    public static final int EVENT_FROM_POSITION = 0;
+    public static final int DESCRIPTION_POSITION_AFTER_PARSE = 0;
+
+    public static final int MARKED_POSITION = 1;
+    public static final int EVENT_TO_POSITION = 1;
+    public static final int DETAILS_POSITION = 1;
+    public static final int EVENT_DETAILS_POSITION = 1;
+    public static final int TIME_POSITION_AFTER_PARSE = 1;
+
     private static final int COMMAND_AND_DETAILS_LIMIT = 2;
+    public static final int REQUIRED_PARTS_FOR_EVENT_TIMES = 2;
+    public static final int DESCRIPTION_POSITION = 2;
+    public static final int DETAILS_AND_PERIOD_LIMIT = 2;
 
+    public static final int DEADLINE_POSITION = 3;
+    public static final int EVENT_TIMES_POSITION = 3;
+    public static final int REQUIRED_PARTS_FOR_ALL_TASKS = 3;
 
-    public static void addItemToList(UserInputList list, String line, Ui ui, Storage storage) throws TerryException {
+    public static final int REQUIRED_PARTS_FOR_DEADLINE = 4;
+    public static final int REQUIRED_PARTS_FOR_EVENT = 4;
+
+    /**
+     * Parses a user input line and adds the corresponding task to the list.
+     *
+     * @param list     The list of user tasks.
+     * @param line     The user input line containing the task details.
+     * @param ui       The UI instance for displaying messages.
+     * @param storage  The storage instance for saving tasks.
+     * @throws TerryException If the input format is invalid or unknown.
+     */
+    public static void addItemToList(
+            UserInputList list, String line,
+            Ui ui, Storage storage) throws TerryException {
         String[] words = line.split(" ", COMMAND_AND_DETAILS_LIMIT);
         if (words.length < COMMAND_AND_DETAILS_LIMIT) {
             System.out.println("Invalid format! Please specify the task details.");
@@ -22,51 +58,61 @@ public class Parser {
 
         }
 
-        String taskType = words[0]; // First part is the command
-        String details = words[1];
+        String taskType = words[COMMAND_POSITION];
+        String details = words[DETAILS_POSITION];
 
-        Task newTask = null; // Task object to be added
+        Task newTask = null;
 
         switch (taskType) {
         case "todo":
             newTask = new ToDo(details);
             break;
         case "deadline":
-            String[] deadlineParts = details.split(" /by ", 2);
-            if (deadlineParts.length < 2) {
-                throw new TerryException("Invalid format for deadline! Use: deadline [description] /by [date]");
+            String[] deadlineParts = details.split(" /by ", DETAILS_AND_PERIOD_LIMIT);
+            if (deadlineParts.length < DETAILS_AND_PERIOD_LIMIT) {
+                throw new TerryException(
+                        "Invalid format for deadline! Use: deadline [description] /by [date]");
             }
-            newTask = new Deadline(deadlineParts[0], deadlineParts[1]);
+            newTask = new Deadline(
+                    deadlineParts[DESCRIPTION_POSITION_AFTER_PARSE],
+                    deadlineParts[TIME_POSITION_AFTER_PARSE]);
             break;
         case "event":
-            String[] eventParts = details.split(" /from ", 2);
-            if (eventParts.length < 2 || !eventParts[1].contains(" /to ")) {
-                throw new TerryException("Invalid format for event! Use: event [description] /from [start] /to [end]");
+            String[] eventParts = details.split(" /from ", DETAILS_AND_PERIOD_LIMIT);
+            if (eventParts.length < DETAILS_AND_PERIOD_LIMIT ||
+                    !eventParts[TIME_POSITION_AFTER_PARSE].contains(" /to ")) {
+                throw new TerryException(
+                        "Invalid format for event!" +
+                        " Use: event [description] /from [start] /to [end]");
             }
-            String[] times = eventParts[1].split(" /to ", 2);
-            newTask = new Event(eventParts[0], times[0], times[1]);
+            String[] times = eventParts[EVENT_DETAILS_POSITION].split(" /to ",
+                    REQUIRED_PARTS_FOR_EVENT_TIMES);
+            newTask = new Event(eventParts[DESCRIPTION_POSITION_AFTER_PARSE],
+                    times[EVENT_FROM_POSITION], times[EVENT_TO_POSITION]);
             break;
         default:
             throw new TerryException("Unknown task type! Use 'todo', 'deadline', or 'event'.");
         }
 
-        list.add(newTask); // Add the task to the list
+        list.add(newTask);
 
         ui.printTasks(list, newTask);
-        // java automatically calls the toString function when printing an object type,
-        //so printing newTask will call toString, invoking the toString functions in the
-        //respective subclasses since they have @override inside
         storage.saveTasksToFile(list.getTasks());
     }
 
-
+    /**
+     * Parses a task from a saved file format and reconstructs it.
+     *
+     * @param line The line of text from the saved file containing task details.
+     * @return The reconstructed task, or {@code null} if the format is invalid.
+     */
     public static Task parseTaskFromSaveFormat(String line) {
         String[] parts = line.split(" \\| ");
-        if (parts.length < 3) return null;
+        if (parts.length < REQUIRED_PARTS_FOR_ALL_TASKS) return null;
 
-        String type = parts[0];
-        boolean isMarked = parts[1].equals("1");
-        String description = parts[2];
+        String type = parts[COMMAND_POSITION];
+        boolean isMarked = parts[MARKED_POSITION].equals("1");
+        String description = parts[DESCRIPTION_POSITION];
 
         Task task;
         switch (type) {
@@ -74,14 +120,15 @@ public class Parser {
             task = new ToDo(description);
             break;
         case "D":
-            if (parts.length < 4) return null;
-            task = new Deadline(description, parts[3]);
+            if (parts.length < REQUIRED_PARTS_FOR_DEADLINE) return null;
+            task = new Deadline(description, parts[DEADLINE_POSITION]);
             break;
         case "E":
-            if (parts.length < 4) return null;
-            String[] eventTimes = parts[3].split(" to: ");
-            if (eventTimes.length < 2) return null;
-            task = new Event(description, eventTimes[0], eventTimes[1]);
+            if (parts.length < REQUIRED_PARTS_FOR_EVENT) return null;
+            String[] eventTimes = parts[EVENT_TIMES_POSITION].split(" to: ");
+            if (eventTimes.length < REQUIRED_PARTS_FOR_EVENT_TIMES) return null;
+            task = new Event(description, eventTimes[EVENT_FROM_POSITION],
+                    eventTimes[EVENT_TO_POSITION]);
             break;
         default:
             return null;
