@@ -39,7 +39,7 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
 
   ---
 
-  <a name="anchor-point-tasks"></a
+  <a name="anchor-point-tasks"></a>
   ### <span style="color: #ADD8E6;">tasks</span>
   There are three different types of tasks: `todo`, `deadline` and `event`
 
