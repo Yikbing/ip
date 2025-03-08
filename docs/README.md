@@ -5,7 +5,7 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
 - [Quick Start](#anchor-point-quick-start)
 - [Features](#anchor-point-features)
     - [list](#anchor-point-list)
-    - [tasks](#anchor-point-add)
+    - [tasks](#anchor-point-tasks)
         - [todo](#anchor-point-todo)
         - [deadline](#anchor-point-deadline)
         - [event](#anchor-point-event)
@@ -32,6 +32,8 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
 
   <a name="anchor-point-features"></a>
   ## Features
+
+  <a name="anchor-point-list"></a>
   ### list
   Shows the entire list of tasks.
 
@@ -116,8 +118,8 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
 
   ---
 
-  <a name="anchor-point-quick-start"></a>
-  ###<span style="color: #ADD8E6;">Known Issues</span>
+  <a name="anchor-point-issues"></a>
+  ### <span style="color: #ADD8E6;">Known Issues</span>
   - The first time a task is added to the list, the error `An error occurred while writing to the file` will appear before 
   the task is added to the list. This will only happen once and will not affect any writings to the text file.
 
