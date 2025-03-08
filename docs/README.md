@@ -22,13 +22,13 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
   1. Ensure you have Java 17 or above installed in your Computer.
      **Mac Users:** Ensure you have the precise JDK version prescribed <a href="https://se-education.org/guides/tutorials/javaInstallationMac.html" target="_blank">here</a>.
 
-  2. Download the latest .jar file [here]<a href="<fill here later when get jar!!>" target="_blank">here</a>.
+  2. Download the latest .jar file [here]<a href="https://github.com/Yikbing/ip/releases/download/v0.2/ip.jar" target="_blank">here</a>.
 
   3. Copy the file to the folder you want to use as the _home folder_ for Terrys.
 
   4. Open a command terminal, `cd` into that folder you put the jar file in and use `java -jar Terry.jar` command to run the application.
 
-  5. Type the commands in the terminal and press enter to execute it! you can refer to the [Features](#anchor-point-features) tab to try some commands.
+  5. Type the commands in the terminal and press enter to execute it! you can refer to the [Features tab](#anchor-point-features) to try some commands.
 
   <a name="anchor-point-features"></a>
   ## Features
