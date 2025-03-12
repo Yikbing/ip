@@ -39,40 +39,50 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
 
   Format: `list`
 
+
   ---
+
 
   <a name="anchor-point-tasks"></a> 
-  ### tasks
+### tasks
   There are three different types of tasks: `todo`, `deadline` and `event`
+
 
   ---
 
+
   <a name="anchor-point-todo"></a>
-  ### todo
+### todo
   A `todo` task is a simple task with a description and a marked status.
 
   Format: `todo [description]`
 
+
   ---
 
+
   <a name="anchor-point-deadline"></a>
-  ### deadline
+### deadline
   A `deadline` task is a task with a description, marked status, and a time to complete it by.
 
   Format: `deadline [description] [/by TIME_TO_COMPLETE]`
 
+
   ---
 
+
   <a name="anchor-point-event"></a>
-  ### event
+### event
   An `event` task is a task with a description, marked status, a time when it starts, and a time when it ends.
 
   Format: `event [description] [/from TIME_IT_STARTS] [/to TIME_IT_ENDS]`
 
+
   ---
 
+
   <a name="anchor-point-mark"></a>
-  ### mark
+### mark
   `mark` allows you to mark a task to indicate that it is completed.
 
   Format: `mark INDEX_OF_TASK`
@@ -80,10 +90,12 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
 
   Example: `mark 1`. this will then return task 1 with an `X` marked in the box on the right of the box containing the task type.
 
+
   ---
 
+
   <a name="anchor-point-delete"></a>
-  ### delete
+### delete
   `delete` allows you to delete a task from the list.
 
   Format: `delete INDEX_OF_TASK`
@@ -91,10 +103,12 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
 
   Example: `delete 1`. this will then remove task 1 from the list and when `list` is called again, all the items would have moved up by one position.
 
+
   ---
 
+
   <a name="anchor-point-find"></a>
-  ### find
+### find
   `find` allows you to find all tasks containing the keyword within its description.
 
   Format: `find DESCRIPTION`
@@ -102,31 +116,39 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
 
   Example: `find me`. If the description of the tasks have "me" inside it, like "homework" or "meet friends", these tasks will be listed out.
 
+
   ---
 
+
   <a name="anchor-point-bye"></a>
-  ### bye
+### bye
   `bye` lets the user exit the program.
 
   Format: `bye`
+
     
   ---
 
+
   <a name="anchor-point-save"></a>
-  ### Saving the data
+### Saving the data
   The list data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+
 
   ---
 
+
   <a name="anchor-point-issues"></a>
-  ### Known Issues
+### Known Issues
   - The first time a task is added to the list, the error `An error occurred while writing to the file` will appear before 
   the task is added to the list. This will only happen once and will not affect any writings to the text file.
 
+
   ---
 
-    <a name="anchor-point-summary"></a>
-  ## Command Summary
+
+  <a name="anchor-point-summary"></a>
+## Command Summary
 
 | Command       | Format                                      | Description                                                                 |
 |--------------|--------------------------------------------|-----------------------------------------------------------------------------|
