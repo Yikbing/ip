@@ -41,14 +41,14 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
 
   ---
 
-  <a name="anchor-point-tasks"></a>
+  <a name="anchor-point-tasks"></a> 
   ### tasks
   There are three different types of tasks: `todo`, `deadline` and `event`
 
   ---
 
   <a name="anchor-point-todo"></a>
-  ### todo 
+  ### todo
   A `todo` task is a simple task with a description and a marked status.
 
   Format: `todo [description]`
@@ -72,7 +72,7 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
   ---
 
   <a name="anchor-point-mark"></a>
-  ### mark 
+  ### mark
   `mark` allows you to mark a task to indicate that it is completed.
 
   Format: `mark INDEX_OF_TASK`
@@ -126,7 +126,7 @@ Terry is a **desktop app for managing tasks**, optimized for use via a Command L
   ---
 
     <a name="anchor-point-summary"></a>
-## Command Summary
+  ## Command Summary
 
 | Command       | Format                                      | Description                                                                 |
 |--------------|--------------------------------------------|-----------------------------------------------------------------------------|
